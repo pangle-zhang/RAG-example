@@ -172,3 +172,9 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+chroma_data/
+llama.cpp/
+*.gguf
+test.bat
+*.zip
