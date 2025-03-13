@@ -33,9 +33,12 @@ You can also setup by manual with the following steps:
 
 5. Download LLM GGUF model file, for example: [deepseek.gguf](https://huggingface.co/unsloth/DeepSeek-R1-Distill-Llama-8B-GGUF/resolve/main/DeepSeek-R1-Distill-Llama-8B-Q4_K_M.gguf)
 
-6. Start *llama.cpp* server to run LLM, for example: 
+6. Download embedding model file, for example: [embedding.gguf](https://huggingface.co/gaianet/Nomic-embed-text-v1.5-Embedding-GGUF/resolve/main/nomic-embed-text-v1.5.f16.gguf)
+
+6. Start *llama.cpp* server to run LLM and embedding models, for example: 
 
         llama.cpp/llama-server.exe -m deepseek.gguf --port 8080
+        llama.cpp/llama-server.exe -m embedding.gguf --embedding --port 8081
 
 7. Start *chroma* server:
 
