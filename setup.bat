@@ -133,6 +133,7 @@ IF %ERRORLEVEL%==0 (
 )
 
 REM Start the web server
+set PYTHONIOENCODING=UTF-8
 netstat -an | findstr 5000 >nul
 IF %ERRORLEVEL%==0 (
     echo Web server is already running.
@@ -142,7 +143,7 @@ IF %ERRORLEVEL%==0 (
 )
 
 REM Wait for the web server to start
-echo Waiting 10 seconds for the web server to start ...
+echo Waiting 10 seconds for all services fully started ...
 timeout /T 10 /NOBREAK > NUL
 
 REM Check all services are running
