@@ -10,7 +10,7 @@ Python 3.11+, Windows 11
 
 ### Auto Setup
 
-You can just run *setup.bat* script to setup the full enviroment.
+You can just run *setup.bat* script to setup the full environment.
 
     setup.bat
 
@@ -44,3 +44,13 @@ You can also setup by manual with the following steps:
 
         chroma run --port 8000
 
+8. Start web server:
+
+        python www\wsgi.py
+
+9. Open example in browser: <http://localhost:5000>
+
+
+## Example
+
+![RAG example](examples/zhergen.png)

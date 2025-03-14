@@ -1,0 +1,9 @@
+{
+    "llm_url": "http://localhost:8080",
+    "embedding_url": "http://localhost:8081/v1",
+    "chroma_server": "localhost",
+    "chroma_port": 8082,
+    "chroma_dbname": "rag_db",
+    "chroma_collection": "rag_example",
+    "doc_chunk_size": 512
+}

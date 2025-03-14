@@ -1,2 +1,4 @@
 chromadb
-numpy
+flask
+markdown
+python-docx

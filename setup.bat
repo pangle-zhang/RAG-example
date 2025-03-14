@@ -118,7 +118,7 @@ IF %ERRORLEVEL%==0 (
 ) ELSE (
     echo Starting llama.cpp to run %llm_gguf% and %embedding_gguf% ...
     start /b llama.cpp\llama-server.exe -m %llm_gguf% --port 8080 > llama.cpp.log 2>&1
-    start /b llama.cpp\llama-server.exe -m %embedding_gguf% --embedding --port 8081 > llama.cpp.embedding.log 2>&1
+    start /b llama.cpp\llama-server.exe -m %embedding_gguf% --embedding --ubatch-size 1024 --port 8081 > llama.cpp.embedding.log 2>&1
 )
 
 REM Start Chroma Server
@@ -128,8 +128,20 @@ IF %ERRORLEVEL%==0 (
     echo Chroma is already running.
 ) ELSE (
     echo Starting Chroma...
-    start /b chroma run --port 8000 > chroma.screen.log 2>&1
+    start /b chroma run --port 8082 > chroma.screen.log 2>&1
 )
+
+REM Start the web server
+netstat -an | findstr 5000 >nul
+IF %ERRORLEVEL%==0 (
+    echo Web server is already running.
+) ELSE (
+    echo Starting the web server ...
+    start /b python www\wsgi.py > wsgi.log 2>&1
+)
+
+REM Open the web browser
+start http://localhost:5000
 
 goto END
 

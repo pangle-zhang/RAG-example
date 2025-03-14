@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            width: 50%;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            resize: none;
+            padding: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #file {
+            display: none;
+        }
+        img {
+            display: none;
+            height: 32px;
+            width: 32px;
+            vertical-align: middle;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            /* border: 1px solid #ccc; */
+            min-height: 50px;
+            width: 50%;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <textarea id="message" placeholder="请输入内容..."></textarea><br>
+        <button onclick="sendMessage('query')">RAG Query</button>
+        <button onclick="sendMessage('chat')">Chat</button>
+        <input id="file" type="file" accept=".txt, .md, .docx, application/pdf" onchange="uploadFile()" />
+        <button onclick="upload()">Upload</button>
+        <img id="loading" src="loading.gif" alt="loading" />
+    </div>
+
+    <div id="response" class="container"></div>
+
+    <script>
+        function sendMessage(action) {
+            let message = document.getElementById("message").value.trim();
+            let responseDiv = document.getElementById("response");
+
+            if (message === "") {
+                alert("请输入内容后提交！");
+                return;
+            }
+
+            const img = document.getElementById("loading");
+            img.style.display = "inline";
+            const url = "http://localhost:5000/" + action;
+            console.log(`Request ${url} with message: ${message}`);
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response:", data);
+                if (data.error) {
+                    responseDiv.innerText = "Error: " + data.error;
+                    img.style.display = "none";
+                    return;
+                }
+                responseDiv.innerHTML = data.answer;
+                img.style.display = "none";
+            })
+            .catch(error => {
+                console.warn("Error:", error);
+                responseDiv.innerText = "Error: 请求失败，请检查服务器是否运行";
+                img.style.display = "none";
+            });
+        }
+
+        document.getElementById("message").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                // Shift + Enter 换行
+                if (event.shiftKey) {
+                    return;
+                }
+
+                // Alt + Enter 换行
+                if (event.altKey) {
+                    event.preventDefault();
+
+                    // 获取当前光标位置
+                    const start = this.selectionStart;
+                    const end = this.selectionEnd;
+
+                    // 在光标位置插入换行符
+                    this.value = this.value.substring(0, start) + '\n' + this.value.substring(end);
+
+                    // 移动光标到插入换行符后的位置
+                    this.selectionStart = this.selectionEnd = start + 1;
+                    return;
+                }
+
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    
+        function upload() {
+            const file = document.getElementById("file");
+            file.click();
+        }
+
+        function uploadFile() {
+            const file = document.getElementById("file").files[0];
+            const img = document.getElementById("loading");
+            img.style.display = "inline";
+            const url = "http://localhost:5000/upload";
+            console.log(`Request ${url} with file: ${file.name}`);
+            const formData = new FormData();
+            formData.append("file", file);
+            fetch(url, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response:", data);
+                document.getElementById("response").innerHTML = "Uploaded file: " + data.filename;
+                img.style.display = "none";
+            })
+            .catch(error => {
+                console.warn("Error:", error);
+                document.getElementById("response").innerText = "Error: 请求失败，请检查服务器是否运行";
+                img.style.display = "none";
+            });
+        }
+    </script>
+
+</body>
+</html>
