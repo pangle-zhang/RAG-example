@@ -29,7 +29,7 @@ You can also setup by manual with the following steps:
 
         pip install -r requirements.txt
 
-4. Download *llama.cpp* binaries from: [llama-b4879-bin-win-avx2-x64.zip](https://github.com/ggml-org/llama.cpp/releases/download/b4879/llama-b4879-bin-win-avx2-x64.zip) and unzip it into diretory *llama.cpp*
+4. Download *llama.cpp* binaries from: [llama-b4879-bin-win-avx2-x64.zip](https://github.com/ggml-org/llama.cpp/releases/download/b4879/llama-b4879-bin-win-avx2-x64.zip) and unzip it into directory *llama.cpp*
 
 5. Download LLM GGUF model file, for example: [deepseek.gguf](https://huggingface.co/unsloth/DeepSeek-R1-Distill-Llama-8B-GGUF/resolve/main/DeepSeek-R1-Distill-Llama-8B-Q4_K_M.gguf)
 
@@ -38,11 +38,11 @@ You can also setup by manual with the following steps:
 6. Start *llama.cpp* server to run LLM and embedding models, for example: 
 
         llama.cpp/llama-server.exe -m deepseek.gguf --port 8080
-        llama.cpp/llama-server.exe -m embedding.gguf --embedding --port 8081
+        llama.cpp/llama-server.exe -m embedding.gguf --embedding --ubatch-size 1024 --port 8081
 
 7. Start *chroma* server:
 
-        chroma run --port 8000
+        chroma run --port 8082
 
 8. Start web server:
 

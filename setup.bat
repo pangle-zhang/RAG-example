@@ -29,18 +29,19 @@ if "%major_version%" geq "3" (
 
 REM Check if venv folder exists, if not create it
 if exist "venv\" (
-    echo venv folder already exists, activating the virtual env ...
+    echo venv folder already exists, activating python virtual env ...
     call venv\Scripts\activate.bat
-    echo Activated the virtual env
+    echo Activated python virtual env
 ) else (
-    echo Creating the virtual env ...
+    echo Creating python virtual env ...
     python -m venv venv
-    echo Activating the virtual env ...
+    echo Activating python virtual env ...
     call venv\Scripts\activate.bat
-    echo Activated the virtual env
+    echo Activated python virtual env
 )
 
 REM Install dependencies
+echo Installing python dependencies ...
 pip install -r requirements.txt
 IF %ERRORLEVEL% NEQ 0 (
     echo Error: failed to install dependencies!
@@ -140,14 +141,51 @@ IF %ERRORLEVEL%==0 (
     start /b python www\wsgi.py > wsgi.log 2>&1
 )
 
+REM Wait for the web server to start
+echo Waiting 10 seconds for the web server to start ...
+timeout /T 10 /NOBREAK > NUL
+
+REM Check all services are running
+netstat -ano | findstr :8080 >nul
+if %errorlevel% equ 0 (
+    echo LLM is running on port 8080
+) else (
+    echo Error: LLM is not running on port 8080
+    goto ERROR
+)
+netstat -ano | findstr :8081 >nul
+if %errorlevel% equ 0 (
+    echo Embedding model is running on port 8081
+) else (
+    echo Error: Embedding mode is not running on port 8081
+    goto ERROR
+)
+netstat -ano | findstr :8082 >nul
+if %errorlevel% equ 0 (
+    echo Chroma is running on port 8082
+) else (
+    echo Error: Chroma is not running on port 8082
+    goto ERROR
+)
+netstat -ano | findstr :5000 >nul
+if %errorlevel% equ 0 (
+    echo Web service is running on port 5000
+) else (
+    echo Error: web service is not running on port 5000
+    goto ERROR
+)
+
 REM Open the web browser
+echo Opening the web browser ...
 start http://localhost:5000
 
 goto END
 
 :ERROR
+echo Setup failed.
 pause
 exit /b 1
 
 :END
+echo Setup completed successfully.
 pause
