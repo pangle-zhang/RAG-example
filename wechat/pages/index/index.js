@@ -130,17 +130,19 @@ Page({
       }
     ];
 
-    const url = 'https://api.hunyuan.cloud.tencent.com/v1/chat/completions';
+    const app = getApp();
+    const model = app.globalData.model;
+    const url = model.url + "/chat/completions";
     console.log(`Request LLM from ${url}, messages:`, messages)
     wx.request({
       url: url,
       method: 'POST',
       header: {
-        "Authorization": "Bearer sk-8eHA12xcZplrkzHirPQoNkYgoS5Mz3gGGjWVyqMMW4g9RgNw",
+        "Authorization": `Bearer ${model.apiKey}`,
         "Content-Type": "application/json",
       },
       data: {
-        model: "hunyuan-turbo",
+        model: model.name,
         messages: messages,
         stream: false
       },

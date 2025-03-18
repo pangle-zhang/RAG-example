@@ -1,4 +1,5 @@
 const localData = require('/data/data.json');
+const apiKey = require('/data/api_key.json').apiKey;
 
 App({
   onLaunch() {
@@ -11,7 +12,12 @@ App({
     }
   },
   globalData: {
-    data: localData
+    data: localData,
+    model: {
+      name: "hunyuan-turbo",
+      url: "https://api.hunyuan.cloud.tencent.com/v1",
+      apiKey: apiKey,
+    }
   },
   getParkingLotInfo() {
     const n2 = Math.floor(Math.random() * 100);
