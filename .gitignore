@@ -178,3 +178,5 @@ llama.cpp/
 *.gguf
 test.bat
 *.zip
+test.py
+test.html

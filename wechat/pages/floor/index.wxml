@@ -1,0 +1,8 @@
+<view class="merchants-container">
+  <block wx:for="{{floor.merchants}}" wx:key="id">
+    <view class="merchant">
+      <image src="/data/logo/{{item.id}}-{{item.name}}.png" mode="widthFix"></image>
+      <view>{{item.id}}: {{item.name}}</view>
+    </view>
+  </block>
+</view>

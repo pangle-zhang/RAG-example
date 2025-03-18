@@ -1,0 +1,118 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.floors {
+  width: 100%;
+  /* height: 300px; 控制列表框高度 */
+  border: 1px solid #ccc;
+  /* border-radius: 10px; */
+  overflow: hidden;
+}
+
+.floor {
+  display: flex;
+  align-items: center; /* 垂直居中 */
+  justify-content: space-between; /* 左右分布 */
+  padding: 10px;
+  font-size: 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+.floor:hover {
+  background-color: #efefef;
+}
+
+.floor:last-child {
+  border-bottom: none;
+}
+
+.floor view {
+  flex: 1;
+  padding-right: 20px;
+  word-wrap: break-word; /* 允许换行 */
+  white-space: normal; /* 正常换行 */
+}
+
+.floor image {
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 12px;
+}
+
+.chat-window {
+  flex: 1;
+  padding: 20rpx;
+  padding-top: 30rpx;
+  background-color: #f5f5f5;
+  overflow-y: auto;
+}
+
+/* 消息容器 */
+.message-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20rpx;
+}
+
+/* 对方消息容器 */
+.bot {
+  justify-content: flex-start; /* 靠左对齐 */
+}
+
+/* 我方消息容器 */
+.user {
+  justify-content: flex-end; /* 靠右对齐 */
+}
+
+/* 头像样式 */
+.avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  margin: 0 20rpx;
+}
+
+/* 消息气泡样式 */
+.message {
+  max-width: 70%;
+  padding: 15rpx 20rpx;
+  border-radius: 10rpx;
+  position: relative;
+}
+
+/* 对方消息气泡 */
+.bot .message {
+  background-color: #e9ecef;
+  color: black;
+}
+
+/* 我方消息气泡 */
+.user .message {
+  background-color: #007bff;
+  color: white;
+}
+
+.input-area {
+  display: flex;
+  padding: 20rpx;
+  background-color: #fff;
+  border-top: 1rpx solid #ddd;
+}
+
+input {
+  flex: 4;
+  margin-right: 20rpx;
+  padding: 10rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 10rpx;
+}
+
+button {
+  flex: 1;
+  background-color: #007bff;
+  color: white;
+  border-radius: 10rpx;
+}

@@ -1,0 +1,40 @@
+<view class="chat-container">
+  <view class="floors">
+    <block wx:for="{{floors}}" wx:key="id">
+      <view class="floor" bindtap="navToFloor" data-floor="{{item.id}}">
+        <view>{{item.id}}楼： {{item.introduction}}</view>
+        <image src="/data/floor-{{item.id}}.png" mode="widthFix"></image>
+      </view>
+    </block>
+  </view>
+  <!-- 聊天内容显示区域 -->
+  <scroll-view class="chat-window" scroll-y scroll-into-view="lastMessage">
+    <block wx:for="{{messages}}" wx:key="id">
+      <!-- 对方消息 -->
+      <view wx:if="{{item.sender === 'bot'}}" class="message-container bot">
+        <image class="avatar" src="/data/bot-avatar.png"></image>
+        <view class="message">
+          <text>{{item.text}}</text>
+        </view>
+      </view>
+
+      <!-- 我方消息 -->
+      <view wx:else class="message-container user">
+        <view class="message">
+          <text>{{item.text}}</text>
+        </view>
+        <image class="avatar" src="{{avatarUrl}}"></image>
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 输入框 -->
+  <view class="input-area">
+    <input
+      placeholder="请输入消息"
+      bindinput="onInput"
+      value="{{inputValue}}"
+    />
+    <button bindtap="sendMessage">发送</button>
+  </view>
+</view>
